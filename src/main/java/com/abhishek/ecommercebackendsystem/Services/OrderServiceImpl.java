@@ -55,4 +55,13 @@ public class OrderServiceImpl implements OrderService {
         }
         return order.get();
     }
+
+    @Override
+    public void deleteOrderById(Long id) {
+        Optional<Orders> order = orderRepository.findById(id);
+        if (order.isEmpty()) {
+            throw new InvalidOrderIdException("Order not found", id);
+        }
+        orderRepository.deleteById(id);
+    }
 }
