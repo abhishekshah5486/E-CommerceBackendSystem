@@ -1,7 +1,10 @@
 package com.abhishek.ecommercebackendsystem.Controllers;
 
+import com.abhishek.ecommercebackendsystem.Dtos.ProductResponseDto;
 import com.abhishek.ecommercebackendsystem.Models.Product;
 import com.abhishek.ecommercebackendsystem.Services.ProductService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +16,9 @@ import java.util.List;
 // Request mapping creates a mapping of this end point with this controller in the
 // dispatcher servlet
 public class ProductController {
+    @Autowired
+    private ModelMapper modelMapper;
+
     ProductService productService;
     public ProductController(ProductService productService) {
         this.productService = productService;
@@ -20,8 +26,10 @@ public class ProductController {
 
     // Get a product by id
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable Long id) {
-        return productService.getProductById(id);
+    public ProductResponseDto getProductById(@PathVariable Long id) {
+        Product product = productService.getProductById(id);
+        ProductResponseDto productResponseDto = modelMapper.map(product, ProductResponseDto.class);
+        return productResponseDto;
     }
     // Get the list of all the products
     @GetMapping("/")

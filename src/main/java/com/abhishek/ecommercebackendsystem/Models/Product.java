@@ -26,4 +26,5 @@ public class Product {
 //    @OneToOne(fetch = FetchType.LAZY)
     @OneToOne
     private Inventory inventory;
+    private ProductAvailability productAvailability;
 }

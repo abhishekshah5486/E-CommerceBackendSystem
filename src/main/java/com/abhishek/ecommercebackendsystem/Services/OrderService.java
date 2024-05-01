@@ -1,9 +1,8 @@
 package com.abhishek.ecommercebackendsystem.Services;
 
 import com.abhishek.ecommercebackendsystem.Dtos.OrderRequestDto;
-import com.abhishek.ecommercebackendsystem.Models.Order;
-import org.springframework.stereotype.Service;
+import com.abhishek.ecommercebackendsystem.Models.Orders;
 
 public interface OrderService {
-    Order createOrder(OrderRequestDto orderRequestDto);
+    Orders createOrder(OrderRequestDto orderRequestDto);
 }

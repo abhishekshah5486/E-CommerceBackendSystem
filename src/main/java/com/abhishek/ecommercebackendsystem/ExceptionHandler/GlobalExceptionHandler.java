@@ -27,14 +27,14 @@ public class GlobalExceptionHandler {
         return responseEntity;
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ExceptionDto> handleRuntimeException(RuntimeException ex){
-        ExceptionDto exceptionDto = new ExceptionDto();
-        exceptionDto.setMessage("Something went wrong");
-        exceptionDto.setResolution("RuntimeException");
-        ResponseEntity<ExceptionDto> responseEntity = new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
-        return responseEntity;
-    }
+//    @ExceptionHandler(RuntimeException.class)
+//    public ResponseEntity<ExceptionDto> handleRuntimeException(RuntimeException ex){
+//        ExceptionDto exceptionDto = new ExceptionDto();
+//        exceptionDto.setMessage("Something went wrong");
+//        exceptionDto.setResolution("RuntimeException");
+//        ResponseEntity<ExceptionDto> responseEntity = new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
+//        return responseEntity;
+//    }
 
     @ExceptionHandler(InvalidProductIdException.class)
     public ResponseEntity<ExceptionDto> handleInvalidProductIdException(InvalidProductIdException invalidProductIdException){
@@ -87,12 +87,21 @@ public class GlobalExceptionHandler {
         return responseEntity;
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ExceptionDto> handleGeneralException(Exception ex){
+    @ExceptionHandler(ProductOutOfStockException.class)
+    public ResponseEntity<ExceptionDto> handleProductOutOfStockException(ProductOutOfStockException productOutOfStockException){
         ExceptionDto exceptionDto = new ExceptionDto();
-        exceptionDto.setMessage("Something went wrong");
-        exceptionDto.setResolution("GeneralException");
+        exceptionDto.setMessage("Something Went Wrong");
+        exceptionDto.setResolution("Product With ID " +  productOutOfStockException.getId() + " is currently out of stock.");
         ResponseEntity<ExceptionDto> responseEntity = new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
         return responseEntity;
     }
+
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ExceptionDto> handleGeneralException(Exception ex){
+//        ExceptionDto exceptionDto = new ExceptionDto();
+//        exceptionDto.setMessage("Something went wrong");
+//        exceptionDto.setResolution("GeneralException");
+//        ResponseEntity<ExceptionDto> responseEntity = new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
+//        return responseEntity;
+//    }
 }
