@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  database:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: eCommerceBackendSystem
+      MYSQL_USER: abhishekshah
+      MYSQL_PASSWORD: abhishek123
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
