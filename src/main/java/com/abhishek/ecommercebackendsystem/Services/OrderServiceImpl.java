@@ -1,11 +1,14 @@
 package com.abhishek.ecommercebackendsystem.Services;
 
+import com.abhishek.ecommercebackendsystem.Controllers.CustomerController;
 import com.abhishek.ecommercebackendsystem.Dtos.OrderRequestDto;
 import com.abhishek.ecommercebackendsystem.Exceptions.InvalidOrderIdException;
 import com.abhishek.ecommercebackendsystem.Exceptions.ProductOutOfStockException;
+import com.abhishek.ecommercebackendsystem.Models.Customer;
 import com.abhishek.ecommercebackendsystem.Models.Orders;
 import com.abhishek.ecommercebackendsystem.Models.Product;
 import com.abhishek.ecommercebackendsystem.Models.ProductAvailability;
+import com.abhishek.ecommercebackendsystem.Repositories.CustomerRepository;
 import com.abhishek.ecommercebackendsystem.Repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +19,12 @@ import java.util.Optional;
 public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     private ProductService productService;
+    private CustomerRepository customerRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, ProductService productService) {
+    public OrderServiceImpl(OrderRepository orderRepository, ProductService productService, CustomerRepository customerRepository) {
         this.orderRepository = orderRepository;
         this.productService = productService;
+        this.customerRepository = customerRepository;
     }
 
     @Override
@@ -44,7 +49,11 @@ public class OrderServiceImpl implements OrderService {
             totalAmount = totalAmount + product.getPrice();
         }
         order.setTotalAmount(totalAmount);
-        return orderRepository.save(order);
+        Orders orderCreated =  orderRepository.save(order);
+        Optional<Customer> customer = customerRepository.findById(orderCreated.getCustomerId());
+        customer.get().getOrderIds().add(orderCreated.getOrderId());
+
+        return orderCreated;
     }
 
     @Override
@@ -63,5 +72,19 @@ public class OrderServiceImpl implements OrderService {
             throw new InvalidOrderIdException("Order not found", id);
         }
         orderRepository.deleteById(id);
+    }
+
+    @Override
+    public Orders updateOrder(Long id, OrderRequestDto orderRequestDto) {
+        Orders order = new Orders();
+        order.setCustomerId(orderRequestDto.getCustomerId());
+        order.setProductIds(orderRequestDto.getProductIds());
+
+        List<Long> productIds = orderRequestDto.getProductIds();
+        Optional<Orders> getOrder = orderRepository.findById(id);
+        if (getOrder.isEmpty()) {
+            throw new InvalidOrderIdException("Order not found", id);
+        }
+        return orderRepository.save(order);
     }
 }

@@ -12,8 +12,8 @@ public interface OrderRepository extends JpaRepository<Orders, Long> {
     Orders save(Orders order);
 
     @Override
-    Optional<Orders> findById(Long aLong);
+    Optional<Orders> findById(Long id);
 
     @Override
-    void deleteById(Long aLong);
+    void deleteById(Long id);
 }

@@ -49,4 +49,21 @@ public class OrderController {
         }
         return orderResponseDto;
     }
+
+    @PutMapping("/{id}")
+    public OrderResponseDto updateOrder(@PathVariable Long id, @RequestBody OrderRequestDto orderRequestDto) {
+        Orders order = orderService.updateOrder(id, orderRequestDto);
+        OrderResponseDto orderResponseDto = modelMapper.map(order, OrderResponseDto.class);
+        List<Long> productIds = order.getProductIds();
+        for (int j=0; j<productIds.size(); j++) {
+            ProductResponseDto productResponseDto = productController.getProductById(productIds.get(j));
+            orderResponseDto.getProductResponseDtoList().add(productResponseDto);
+        }
+        return orderResponseDto;
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteOrder(@PathVariable Long id) {
+        orderService.deleteOrderById(id);
+    }
 }
