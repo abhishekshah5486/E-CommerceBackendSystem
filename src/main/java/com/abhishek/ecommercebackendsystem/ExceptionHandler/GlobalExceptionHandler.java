@@ -1,7 +1,9 @@
 package com.abhishek.ecommercebackendsystem.ExceptionHandler;
 
 import com.abhishek.ecommercebackendsystem.Dtos.ExceptionDto;
+import com.abhishek.ecommercebackendsystem.Exceptions.InvalidCategoryIdException;
 import com.abhishek.ecommercebackendsystem.Exceptions.InvalidProductIdException;
+import com.abhishek.ecommercebackendsystem.Exceptions.NoCategoriesFoundException;
 import com.abhishek.ecommercebackendsystem.Exceptions.NoProductsFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +47,14 @@ public class GlobalExceptionHandler {
         ResponseEntity<ExceptionDto> responseEntity = new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
         return responseEntity;
     }
+    @ExceptionHandler(InvalidCategoryIdException.class)
+    public ResponseEntity<ExceptionDto> handleInvalidCategoryIdException(InvalidCategoryIdException invalidCategoryIdException){
+        ExceptionDto exceptionDto = new ExceptionDto();
+        exceptionDto.setMessage("Invalid Product Id " + invalidCategoryIdException.getId() + " passed.");
+        exceptionDto.setResolution("InvalidCategoryIdException");
+        ResponseEntity<ExceptionDto> responseEntity = new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
+        return responseEntity;
+    }
     @ExceptionHandler(NoProductsFoundException.class)
     public ResponseEntity<ExceptionDto> handleNoProductsFoundException(NoProductsFoundException ex){
         ExceptionDto exceptionDto = new ExceptionDto();
@@ -53,7 +63,14 @@ public class GlobalExceptionHandler {
         ResponseEntity<ExceptionDto> responseEntity = new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
         return responseEntity;
     }
-
+    @ExceptionHandler(NoCategoriesFoundException.class)
+    public ResponseEntity<ExceptionDto> handleNoCategoriesFoundException(NoCategoriesFoundException ex){
+        ExceptionDto exceptionDto = new ExceptionDto();
+        exceptionDto.setMessage("Something Went Wrong");
+        exceptionDto.setResolution("NoCategoriesFoundException");
+        ResponseEntity<ExceptionDto> responseEntity = new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
+        return responseEntity;
+    }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionDto> handleGeneralException(Exception ex){
         ExceptionDto exceptionDto = new ExceptionDto();
