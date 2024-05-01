@@ -1,5 +1,6 @@
 package com.abhishek.ecommercebackendsystem.Dtos;
 
+import com.abhishek.ecommercebackendsystem.Models.OrderConfirmation;
 import com.abhishek.ecommercebackendsystem.Models.OrderStatus;
 import jakarta.persistence.ElementCollection;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,8 @@ public class OrderResponseDto {
     private Long customerId;
     private double totalAmount;
     private OrderStatus orderStatus;
-    private LocalDate orderDate;
+    private LocalDate orderedDate;
     @ElementCollection
     private List<ProductResponseDto> productResponseDtoList = new ArrayList<>();
+    private OrderConfirmation orderConfirmation;
 }

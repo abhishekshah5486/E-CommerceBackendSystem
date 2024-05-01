@@ -1,6 +1,7 @@
 package com.abhishek.ecommercebackendsystem.Services;
 
 import com.abhishek.ecommercebackendsystem.Dtos.OrderRequestDto;
+import com.abhishek.ecommercebackendsystem.Exceptions.InvalidOrderIdException;
 import com.abhishek.ecommercebackendsystem.Exceptions.ProductOutOfStockException;
 import com.abhishek.ecommercebackendsystem.Models.Orders;
 import com.abhishek.ecommercebackendsystem.Models.Product;
@@ -9,6 +10,7 @@ import com.abhishek.ecommercebackendsystem.Repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -43,5 +45,14 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setTotalAmount(totalAmount);
         return orderRepository.save(order);
+    }
+
+    @Override
+    public Orders getOrderById(Long id) {
+        Optional<Orders> order = orderRepository.findById(id);
+        if (order.isEmpty()) {
+            throw new InvalidOrderIdException("Order not found", id);
+        }
+        return order.get();
     }
 }

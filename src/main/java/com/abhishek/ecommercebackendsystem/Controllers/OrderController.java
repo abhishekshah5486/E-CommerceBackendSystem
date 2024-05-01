@@ -7,10 +7,7 @@ import com.abhishek.ecommercebackendsystem.Models.Orders;
 import com.abhishek.ecommercebackendsystem.Services.OrderService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,6 +33,18 @@ public class OrderController {
         for (int j=0; j<productIds.size(); j++) {
             ProductResponseDto productResponseDto = productController.getProductById(productIds.get(j));
 
+            orderResponseDto.getProductResponseDtoList().add(productResponseDto);
+        }
+        return orderResponseDto;
+    }
+
+    @GetMapping("/{id}")
+    public OrderResponseDto getOrderById(@PathVariable Long id) {
+        Orders order = orderService.getOrderById(id);
+        OrderResponseDto orderResponseDto = modelMapper.map(order, OrderResponseDto.class);
+        List<Long> productIds = order.getProductIds();
+        for (int j=0; j<productIds.size(); j++) {
+            ProductResponseDto productResponseDto = productController.getProductById(productIds.get(j));
             orderResponseDto.getProductResponseDtoList().add(productResponseDto);
         }
         return orderResponseDto;
