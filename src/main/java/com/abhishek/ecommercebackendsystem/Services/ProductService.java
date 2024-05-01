@@ -10,4 +10,9 @@ public interface ProductService {
     Product createProduct(Product product);
     Product updateProduct(Long id, Product product);
     void deleteProduct(Long id);
+    List<Product> findByPriceLessThan(double price);
+    List<Product> findByPriceGreaterThan(double price);
+    List<Product> findByPriceBetween(double minPrice, double maxPrice);
+    List<Product> findByPriceEquals(double price);
+
 }

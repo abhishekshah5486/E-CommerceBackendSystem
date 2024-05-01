@@ -46,4 +46,28 @@ public class ProductController {
     public void deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
     }
+
+    // Find all products having price less than the given price
+    @GetMapping("/?filter=lessThan")
+    public List<Product> findByPriceLessThan(@RequestParam double price) {
+        return productService.findByPriceLessThan(price);
+    }
+
+    // Find all products having price greater than the given price
+    @GetMapping("/?filter=greaterThan")
+    public List<Product> findByPriceGreaterThan(@RequestParam double price) {
+        return productService.findByPriceGreaterThan(price);
+    }
+
+    // Find all products having price equal to the given price
+    @GetMapping("/?filter=equalsTo")
+    public List<Product> findByPriceEquals(@RequestParam double price) {
+        return productService.findByPriceEquals(price);
+    }
+
+    // Find all products having price between minPrice and maxPrice
+    @GetMapping("/?filter=Between")
+    public List<Product> findByPriceEquals(@RequestParam double minPrice, @RequestParam double maxPrice) {
+        return productService.findByPriceBetween(minPrice, maxPrice);
+    }
 }

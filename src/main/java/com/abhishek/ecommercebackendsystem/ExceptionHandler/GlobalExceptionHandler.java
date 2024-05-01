@@ -5,8 +5,10 @@ import com.abhishek.ecommercebackendsystem.Exceptions.InvalidProductIdException;
 import com.abhishek.ecommercebackendsystem.Exceptions.NoProductsFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+@ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(ArithmeticException.class)
     public ResponseEntity<ExceptionDto> handleArithmeticException(ArithmeticException ex){
@@ -39,7 +41,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ExceptionDto> handleInvalidProductIdException(InvalidProductIdException invalidProductIdException){
         ExceptionDto exceptionDto = new ExceptionDto();
         exceptionDto.setMessage("Invalid Product Id " + invalidProductIdException.getId() + " passed.");
-        exceptionDto.setResolution("ProductNotFoundException");
+        exceptionDto.setResolution("InvalidProductIdException");
         ResponseEntity<ExceptionDto> responseEntity = new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
         return responseEntity;
     }

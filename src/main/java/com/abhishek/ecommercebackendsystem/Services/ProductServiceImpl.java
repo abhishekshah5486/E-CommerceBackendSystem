@@ -68,4 +68,40 @@ public class ProductServiceImpl implements ProductService{
         }
         productRepository.deleteById(id);
     }
+
+    @Override
+    public List<Product> findByPriceLessThan(double price) {
+        List<Product> allProducts = productRepository.findByPriceLessThan(price);
+        if (allProducts.isEmpty()) {
+            throw new NoProductsFoundException("No products found");
+        }
+        return allProducts;
+    }
+
+    @Override
+    public List<Product> findByPriceGreaterThan(double price) {
+        List<Product> allProducts = productRepository.findByPriceGreaterThan(price);
+        if (allProducts.isEmpty()) {
+            throw new NoProductsFoundException("No products found");
+        }
+        return allProducts;
+    }
+
+    @Override
+    public List<Product> findByPriceBetween(double minPrice, double maxPrice) {
+        List<Product> allProducts = productRepository.findByPriceBetween(minPrice, maxPrice);
+        if (allProducts.isEmpty()) {
+            throw new NoProductsFoundException("No products found");
+        }
+        return allProducts;
+    }
+
+    @Override
+    public List<Product> findByPriceEquals(double price) {
+        List<Product> allProducts = productRepository.findByPriceEquals(price);
+        if (allProducts.isEmpty()) {
+            throw new NoProductsFoundException("No products found");
+        }
+        return allProducts;
+    }
 }
