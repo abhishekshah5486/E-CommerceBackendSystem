@@ -5,9 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductNotFoundException extends RuntimeException {
+public class InvalidProductIdException extends RuntimeException {
     private Long id;
-    public ProductNotFoundException(String message, Long id) {
+    public InvalidProductIdException(String message, Long id) {
         super(message);
         this.id = id;
     }

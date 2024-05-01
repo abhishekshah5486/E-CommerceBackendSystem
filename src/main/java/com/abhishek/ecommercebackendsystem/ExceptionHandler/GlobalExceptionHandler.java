@@ -1,7 +1,8 @@
 package com.abhishek.ecommercebackendsystem.ExceptionHandler;
 
 import com.abhishek.ecommercebackendsystem.Dtos.ExceptionDto;
-import com.abhishek.ecommercebackendsystem.Exceptions.ProductNotFoundException;
+import com.abhishek.ecommercebackendsystem.Exceptions.InvalidProductIdException;
+import com.abhishek.ecommercebackendsystem.Exceptions.NoProductsFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,14 +35,23 @@ public class GlobalExceptionHandler {
         return responseEntity;
     }
 
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<ExceptionDto> handleProductNotFoundException(ProductNotFoundException productNotFoundException){
+    @ExceptionHandler(InvalidProductIdException.class)
+    public ResponseEntity<ExceptionDto> handleInvalidProductIdException(InvalidProductIdException invalidProductIdException){
         ExceptionDto exceptionDto = new ExceptionDto();
-        exceptionDto.setMessage("Invalid Product Id " + productNotFoundException.getId() + " passed.");
+        exceptionDto.setMessage("Invalid Product Id " + invalidProductIdException.getId() + " passed.");
         exceptionDto.setResolution("ProductNotFoundException");
         ResponseEntity<ExceptionDto> responseEntity = new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
         return responseEntity;
     }
+    @ExceptionHandler(NoProductsFoundException.class)
+    public ResponseEntity<ExceptionDto> handleNoProductsFoundException(NoProductsFoundException ex){
+        ExceptionDto exceptionDto = new ExceptionDto();
+        exceptionDto.setMessage("Something Went Wrong");
+        exceptionDto.setResolution("NoProductsFoundException");
+        ResponseEntity<ExceptionDto> responseEntity = new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
+        return responseEntity;
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionDto> handleGeneralException(Exception ex){
         ExceptionDto exceptionDto = new ExceptionDto();

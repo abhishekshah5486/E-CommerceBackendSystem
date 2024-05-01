@@ -17,13 +17,33 @@ public class ProductController {
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
+
+    // Get a product by id
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
     }
-
+    // Get the list of all the products
     @GetMapping("/")
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
+    }
+
+    // Create a new product in the database
+    @PostMapping("/")
+    public Product createProduct(@RequestBody Product product){
+        return productService.createProduct(product);
+    }
+
+    // Update an existing product in the database
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable Long id, @RequestBody Product product){
+        return productService.updateProduct(id, product);
+    }
+
+    // Delete a product
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
     }
 }
