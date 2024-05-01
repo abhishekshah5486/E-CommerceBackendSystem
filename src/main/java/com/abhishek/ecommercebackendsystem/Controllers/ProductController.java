@@ -48,26 +48,32 @@ public class ProductController {
     }
 
     // Find all products having price less than the given price
-    @GetMapping("/?filter=lessThan")
-    public List<Product> findByPriceLessThan(@RequestParam double price) {
+    @GetMapping("/?filter=lessThan{price}")
+    public List<Product> findByPriceLessThan(@PathVariable Double price) {
         return productService.findByPriceLessThan(price);
     }
 
     // Find all products having price greater than the given price
-    @GetMapping("/?filter=greaterThan")
-    public List<Product> findByPriceGreaterThan(@RequestParam double price) {
+    @GetMapping("/?filter=greaterThan{price}")
+    public List<Product> findByPriceGreaterThan(@PathVariable Double price) {
         return productService.findByPriceGreaterThan(price);
     }
 
     // Find all products having price equal to the given price
-    @GetMapping("/?filter=equalsTo")
-    public List<Product> findByPriceEquals(@RequestParam double price) {
+    @GetMapping("/?filter=equalsTo{price}")
+    public List<Product> findByPriceEquals(@PathVariable Double price) {
         return productService.findByPriceEquals(price);
     }
 
     // Find all products having price between minPrice and maxPrice
     @GetMapping("/?filter=Between")
-    public List<Product> findByPriceEquals(@RequestParam double minPrice, @RequestParam double maxPrice) {
+    public List<Product> findByPriceEquals(@PathVariable Double minPrice, @PathVariable Double maxPrice) {
         return productService.findByPriceBetween(minPrice, maxPrice);
+    }
+
+    // Filter all products by category
+    @GetMapping("/?filter=category{title}")
+    public List<Product> findByCategory(@PathVariable String title) {
+        return productService.findProductsByCategory(title);
     }
 }

@@ -104,4 +104,13 @@ public class ProductServiceImpl implements ProductService{
         }
         return allProducts;
     }
+
+    @Override
+    public List<Product> findProductsByCategory(String title) {
+        List<Product> allProducts = productRepository.findProductsByCategory(title);
+        if (allProducts.isEmpty()) {
+            throw new NoProductsFoundException("No products found");
+        }
+        return allProducts;
+    }
 }

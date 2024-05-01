@@ -1,5 +1,6 @@
 package com.abhishek.ecommercebackendsystem.Repositories;
 
+import com.abhishek.ecommercebackendsystem.Models.Category;
 import com.abhishek.ecommercebackendsystem.Models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -32,4 +33,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM Product p WHERE p.price >= :minPrice AND p.price <= :maxPrice")
     List<Product> findByPriceBetween(double minPrice, double maxPrice);
+
+    @Query("SELECT p FROM Product p WHERE p.category.title = :title")
+    List<Product> findProductsByCategory(String title);
 }

@@ -20,8 +20,8 @@ public class Product {
     private String description;
     private double price;
     private double rating;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Inventory inventory;
 }
