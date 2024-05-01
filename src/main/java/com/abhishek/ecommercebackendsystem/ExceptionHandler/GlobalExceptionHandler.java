@@ -78,6 +78,15 @@ public class GlobalExceptionHandler {
         return responseEntity;
     }
 
+    @ExceptionHandler(NoCustomerFoundException.class)
+    public ResponseEntity<ExceptionDto> handleNoCustomerFoundException(NoCustomerFoundException ex){
+        ExceptionDto exceptionDto = new ExceptionDto();
+        exceptionDto.setMessage("Something Went Wrong");
+        exceptionDto.setResolution("NoCustomerFoundException");
+        ResponseEntity<ExceptionDto> responseEntity = new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
+        return responseEntity;
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionDto> handleGeneralException(Exception ex){
         ExceptionDto exceptionDto = new ExceptionDto();

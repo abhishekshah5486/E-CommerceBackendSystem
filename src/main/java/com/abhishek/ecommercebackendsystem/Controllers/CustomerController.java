@@ -37,4 +37,9 @@ public class CustomerController {
         Customer customer = customerService.updateCustomer(customerRequestDto, id);
         return modelMapper.map(customer, CustomerResponseDto.class);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteCustomer(@PathVariable Long id) {
+        customerService.deleteCustomer(id);
+    }
 }

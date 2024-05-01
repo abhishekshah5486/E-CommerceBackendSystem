@@ -7,4 +7,5 @@ public interface CustomerService {
     Customer createCustomer(CustomerRequestDto customerRequestDto);
     Customer getCustomerById(Long id);
     Customer updateCustomer(CustomerRequestDto customerRequestDto, Long id);
+    void deleteCustomer(Long id);
 }
