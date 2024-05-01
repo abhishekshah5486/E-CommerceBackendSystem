@@ -113,4 +113,33 @@ public class ProductServiceImpl implements ProductService{
         }
         return allProducts;
     }
+
+    @Override
+    public List<Product> findProductByPopularity(double rating) {
+        List<Product> allProducts = productRepository.findProductByPopularity(rating);
+        if (allProducts.isEmpty()) {
+            throw new NoProductsFoundException("No products found");
+        }
+        return allProducts;
+    }
+
+    @Override
+    public List<Product> sortProductsByPopularityAsc() {
+        return productRepository.sortProductsByPopularityAsc();
+    }
+
+    @Override
+    public List<Product> sortProductsByPopularityDesc() {
+        return productRepository.sortProductsByPopularityDesc();
+    }
+
+    @Override
+    public List<Product> sortProductsByPriceAsc() {
+        return productRepository.sortProductsByPriceAsc();
+    }
+
+    @Override
+    public List<Product> sortProductsByPriceDesc() {
+        return productRepository.sortProductsByPriceDesc();
+    }
 }

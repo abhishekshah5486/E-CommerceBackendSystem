@@ -48,32 +48,58 @@ public class ProductController {
     }
 
     // Find all products having price less than the given price
-    @GetMapping("/?filter=lessThan?price={price}")
+    @GetMapping("/price/lessthan/{price}")
     public List<Product> findByPriceLessThan(@PathVariable Double price) {
         return productService.findByPriceLessThan(price);
     }
 
     // Find all products having price greater than the given price
-    @GetMapping("/?filter=greaterThan?price={price}")
+    @GetMapping("/price/greaterthan/{price}")
     public List<Product> findByPriceGreaterThan(@PathVariable Double price) {
         return productService.findByPriceGreaterThan(price);
     }
 
     // Find all products having price equal to the given price
-    @GetMapping("/?filter=equalsTo?price={price}")
+    @GetMapping("/price/equals/{price}")
     public List<Product> findByPriceEquals(@PathVariable Double price) {
         return productService.findByPriceEquals(price);
     }
 
     // Find all products having price between minPrice and maxPrice
-    @GetMapping("/?filter=Between?minPrice={minPrice}&maxPrice={maxPrice}")
+    @GetMapping("/priceRange/{minPrice}/{maxPrice}")
     public List<Product> findByPriceEquals(@PathVariable Double minPrice, @PathVariable Double maxPrice) {
         return productService.findByPriceBetween(minPrice, maxPrice);
     }
 
     // Filter all products by category
-    @GetMapping("/?filter=category?title={title}")
+    @GetMapping("/category/{title}")
     public List<Product> findByCategory(@PathVariable String title) {
         return productService.findProductsByCategory(title);
+    }
+
+    // Filter all products by rating/popularity
+    @GetMapping("/rating/{rating}")
+    public List<Product> findByCategory(@PathVariable double rating) {
+        return productService.findProductByPopularity(rating);
+    }
+
+    @GetMapping("/sort/price/asc")
+    public List<Product> sortProductsByPriceAsc() {
+        return productService.sortProductsByPriceAsc();
+    }
+
+    @GetMapping("/sort/price/desc")
+    public List<Product> sortProductsByPriceDesc() {
+        return productService.sortProductsByPriceDesc();
+    }
+
+    @GetMapping("/sort/popularity/asc")
+    public List<Product> sortProductsByPopularityAsc() {
+        return productService.sortProductsByPopularityAsc();
+    }
+
+    @GetMapping("/sort/popularity/desc")
+    public List<Product> sortProductsByPopularityDesc() {
+        return productService.sortProductsByPopularityDesc();
     }
 }

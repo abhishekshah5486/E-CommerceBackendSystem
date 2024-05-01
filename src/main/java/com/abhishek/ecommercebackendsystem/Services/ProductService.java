@@ -15,4 +15,9 @@ public interface ProductService {
     List<Product> findByPriceBetween(double minPrice, double maxPrice);
     List<Product> findByPriceEquals(double price);
     List<Product> findProductsByCategory(String category);
+    List<Product> findProductByPopularity(double rating);
+    List<Product> sortProductsByPopularityAsc();
+    List<Product> sortProductsByPopularityDesc();
+    List<Product> sortProductsByPriceAsc();
+    List<Product> sortProductsByPriceDesc();
 }
