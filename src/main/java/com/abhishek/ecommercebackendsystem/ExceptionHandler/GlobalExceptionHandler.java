@@ -1,10 +1,7 @@
 package com.abhishek.ecommercebackendsystem.ExceptionHandler;
 
 import com.abhishek.ecommercebackendsystem.Dtos.ExceptionDto;
-import com.abhishek.ecommercebackendsystem.Exceptions.InvalidCategoryIdException;
-import com.abhishek.ecommercebackendsystem.Exceptions.InvalidProductIdException;
-import com.abhishek.ecommercebackendsystem.Exceptions.NoCategoriesFoundException;
-import com.abhishek.ecommercebackendsystem.Exceptions.NoProductsFoundException;
+import com.abhishek.ecommercebackendsystem.Exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -71,6 +68,16 @@ public class GlobalExceptionHandler {
         ResponseEntity<ExceptionDto> responseEntity = new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
         return responseEntity;
     }
+
+    @ExceptionHandler(InvalidCustomerIdException.class)
+    public ResponseEntity<ExceptionDto> handleInvalidCustomerIdException(InvalidCustomerIdException ex){
+        ExceptionDto exceptionDto = new ExceptionDto();
+        exceptionDto.setMessage("Invalid Customer Id " + ex.getId() + " passed.");
+        exceptionDto.setResolution("InvalidCustomerIdException");
+        ResponseEntity<ExceptionDto> responseEntity = new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
+        return responseEntity;
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionDto> handleGeneralException(Exception ex){
         ExceptionDto exceptionDto = new ExceptionDto();
