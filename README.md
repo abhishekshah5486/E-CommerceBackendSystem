@@ -1,21 +1,23 @@
-### Class Design
+# Class Design
 
 ### List of classes 
 
-#### BaseModel
-#### Category
-#### Customer
-#### Inventory
-#### Orders
-#### Product 
+- BaseModel
+- Category
+- Customer
+- Inventory
+- Orders
+- Product 
 
 ### List of ENUMs
 
-#### ProductAvailability
-#### OrderConfirmation
-#### OrderStatus
+* ProductAvailability
+* OrderConfirmation
+* OrderStatus
 
 ### Base Model
+* Long id
+  
 ### Category
   * Long id
   * String Title
