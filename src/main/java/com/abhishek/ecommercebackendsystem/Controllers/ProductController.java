@@ -75,7 +75,7 @@ public class ProductController {
 
     // Find all products having price between minPrice and maxPrice
     @GetMapping("/priceRange/{minPrice}/{maxPrice}")
-    public List<Product> findByPriceEquals(@PathVariable Double minPrice, @PathVariable Double maxPrice) {
+    public List<Product> findByPriceBetween(@PathVariable Double minPrice, @PathVariable Double maxPrice) {
         return productService.findByPriceBetween(minPrice, maxPrice);
     }
 

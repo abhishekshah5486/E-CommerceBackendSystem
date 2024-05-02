@@ -91,7 +91,7 @@ public class OrderController {
         return orderService.getOrderStatusById(id);
     }
 
-    @GetMapping("/orderConfirmation/{id}")
+    @GetMapping("/confirmation/{id}")
     public OrderConfirmation getOrderConfirmationById(@PathVariable Long id) {
         return orderService.getOrderConfirmationById(id);
     }

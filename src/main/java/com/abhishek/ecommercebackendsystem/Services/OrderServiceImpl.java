@@ -1,6 +1,7 @@
 package com.abhishek.ecommercebackendsystem.Services;
 
 import com.abhishek.ecommercebackendsystem.Controllers.CustomerController;
+import com.abhishek.ecommercebackendsystem.Dtos.CustomerRequestDto;
 import com.abhishek.ecommercebackendsystem.Dtos.OrderRequestDto;
 import com.abhishek.ecommercebackendsystem.Exceptions.InvalidOrderIdException;
 import com.abhishek.ecommercebackendsystem.Exceptions.NoCustomerFoundException;
@@ -29,7 +30,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Orders createOrder(OrderRequestDto orderRequestDto) {
         Long customerId = orderRequestDto.getCustomerId();
-        Customer customer = customerService.getCustomerById(customerId);
         Orders order = new Orders();
         order.setCustomerId(customerId);
         order.setProductIds(orderRequestDto.getProductIds());
@@ -51,7 +51,8 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setTotalAmount(totalAmount);
         Orders savedOrder =  orderRepository.save(order);
-        customer.getOrderIds().add(savedOrder.getOrderId());
+        List<Long> orderIds = savedOrder.getProductIds();
+        customerService.updateCustomerOrderIds(customerId, orderIds);
         return savedOrder;
     }
 
