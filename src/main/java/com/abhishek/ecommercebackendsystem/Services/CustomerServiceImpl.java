@@ -19,10 +19,8 @@ import java.util.Optional;
 @Service
 public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository customerRepository;
-    private OrderService orderService;
-    public CustomerServiceImpl(CustomerRepository customerRepository, OrderService orderService) {
+    public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
-        this.orderService = orderService;
     }
 
     @Override
@@ -64,19 +62,5 @@ public class CustomerServiceImpl implements CustomerService {
             throw new NoCustomerFoundException("No Customer with this id exists.");
         }
         customerRepository.deleteById(id);
-    }
-
-    @Override
-    public List<Orders> getOrderHistory(Long id) {
-        Customer customer = getCustomerById(id);
-        List<Long> orderIds = customer.getOrderIds();
-        List<Orders> orders = new ArrayList<>();
-
-        for (int i = 0; i < orderIds.size(); i++) {
-            Orders order = new Orders();
-            order = orderService.getOrderById(orderIds.get(i));
-            orders.add(order);
-        }
-        return orders;
     }
 }

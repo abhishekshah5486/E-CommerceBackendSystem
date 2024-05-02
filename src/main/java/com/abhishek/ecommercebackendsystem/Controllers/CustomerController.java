@@ -3,6 +3,7 @@ package com.abhishek.ecommercebackendsystem.Controllers;
 import com.abhishek.ecommercebackendsystem.Dtos.CustomerRequestDto;
 import com.abhishek.ecommercebackendsystem.Dtos.CustomerResponseDto;
 import com.abhishek.ecommercebackendsystem.Dtos.OrderResponseDto;
+import com.abhishek.ecommercebackendsystem.Dtos.ProductResponseDto;
 import com.abhishek.ecommercebackendsystem.Models.Customer;
 import com.abhishek.ecommercebackendsystem.Models.Orders;
 import com.abhishek.ecommercebackendsystem.Repositories.CustomerRepository;
@@ -19,11 +20,13 @@ import java.util.List;
 @RequestMapping("/customers")
 public class CustomerController {
     private CustomerService customerService;
+    private OrderController orderController;
 
     @Autowired
     private ModelMapper modelMapper;
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerService customerService, OrderController orderController) {
         this.customerService = customerService;
+        this.orderController = orderController;
     }
 
     @GetMapping("/{id}")
@@ -49,13 +52,7 @@ public class CustomerController {
     }
 
     @GetMapping("/orders/{id}")
-    public List<OrderResponseDto> getOrderHistory(@PathVariable Long id) {
-        List<Orders> orders = customerService.getOrderHistory(id);
-        List<OrderResponseDto> orderResponseDtos = new ArrayList<>();
-        for (Orders order : orders) {
-            OrderResponseDto orderResponseDto = modelMapper.map(order, OrderResponseDto.class);
-            orderResponseDtos.add(orderResponseDto);
-        }
-        return orderResponseDtos;
+    public List<OrderResponseDto> getOrderHistoryByCustomerId(@PathVariable Long id) {
+        return orderController.getOrderHistoryByCustomerId(id);
     }
 }

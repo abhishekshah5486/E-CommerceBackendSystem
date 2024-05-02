@@ -3,15 +3,15 @@ package com.abhishek.ecommercebackendsystem.Services;
 import com.abhishek.ecommercebackendsystem.Controllers.CustomerController;
 import com.abhishek.ecommercebackendsystem.Dtos.OrderRequestDto;
 import com.abhishek.ecommercebackendsystem.Exceptions.InvalidOrderIdException;
+import com.abhishek.ecommercebackendsystem.Exceptions.NoCustomerFoundException;
+import com.abhishek.ecommercebackendsystem.Exceptions.NoOrderHistoryFoundException;
 import com.abhishek.ecommercebackendsystem.Exceptions.ProductOutOfStockException;
-import com.abhishek.ecommercebackendsystem.Models.Customer;
-import com.abhishek.ecommercebackendsystem.Models.Orders;
-import com.abhishek.ecommercebackendsystem.Models.Product;
-import com.abhishek.ecommercebackendsystem.Models.ProductAvailability;
+import com.abhishek.ecommercebackendsystem.Models.*;
 import com.abhishek.ecommercebackendsystem.Repositories.CustomerRepository;
 import com.abhishek.ecommercebackendsystem.Repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,18 +19,19 @@ import java.util.Optional;
 public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     private ProductService productService;
-    private CustomerRepository customerRepository;
-
-    public OrderServiceImpl(OrderRepository orderRepository, ProductService productService, CustomerRepository customerRepository) {
+    private CustomerService customerService;
+    public OrderServiceImpl(OrderRepository orderRepository, ProductService productService, CustomerService customerService) {
         this.orderRepository = orderRepository;
         this.productService = productService;
-        this.customerRepository = customerRepository;
+        this.customerService = customerService;
     }
 
     @Override
     public Orders createOrder(OrderRequestDto orderRequestDto) {
+        Long customerId = orderRequestDto.getCustomerId();
+        Customer customer = customerService.getCustomerById(customerId);
         Orders order = new Orders();
-        order.setCustomerId(orderRequestDto.getCustomerId());
+        order.setCustomerId(customerId);
         order.setProductIds(orderRequestDto.getProductIds());
 
         List<Long> productIds = orderRequestDto.getProductIds();
@@ -49,11 +50,9 @@ public class OrderServiceImpl implements OrderService {
             totalAmount = totalAmount + product.getPrice();
         }
         order.setTotalAmount(totalAmount);
-        Orders orderCreated =  orderRepository.save(order);
-        Optional<Customer> customer = customerRepository.findById(orderCreated.getCustomerId());
-        customer.get().getOrderIds().add(orderCreated.getOrderId());
-
-        return orderCreated;
+        Orders savedOrder =  orderRepository.save(order);
+        customer.getOrderIds().add(savedOrder.getOrderId());
+        return savedOrder;
     }
 
     @Override
@@ -86,5 +85,39 @@ public class OrderServiceImpl implements OrderService {
             throw new InvalidOrderIdException("Order not found", id);
         }
         return orderRepository.save(order);
+    }
+
+    @Override
+    public List<Orders> getOrderHistoryByCustomerId(Long id) {
+        Customer customer = customerService.getCustomerById(id);
+        List<Long> orderIds = customer.getOrderIds();
+        System.out.println(orderIds);
+        List<Orders> orders = new ArrayList<>();
+        for (int j=0; j<orderIds.size(); j++) {
+            Orders order = getOrderById(orderIds.get(j));
+            orders.add(order);
+        }
+        if (orders.isEmpty()) {
+            throw new NoOrderHistoryFoundException("No order history found", id);
+        }
+        return orders;
+    }
+
+    @Override
+    public OrderStatus getOrderStatusById(Long id) {
+        Optional<Orders> order = orderRepository.findById(id);
+        if (order.isEmpty()) {
+            throw new InvalidOrderIdException("Order not found", id);
+        }
+        return order.get().getOrderStatus();
+    }
+
+    @Override
+    public OrderConfirmation getOrderConfirmationById(Long id) {
+        Optional<Orders> order = orderRepository.findById(id);
+        if (order.isEmpty()) {
+            throw new InvalidOrderIdException("Order not found", id);
+        }
+        return order.get().getOrderConfirmation();
     }
 }

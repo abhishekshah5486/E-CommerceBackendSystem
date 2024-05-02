@@ -105,6 +105,15 @@ public class GlobalExceptionHandler {
         return responseEntity;
     }
 
+    @ExceptionHandler(NoOrderHistoryFoundException.class)
+    public ResponseEntity<ExceptionDto> handleNoOrderHistoryFoundException(NoOrderHistoryFoundException ex){
+        ExceptionDto exceptionDto = new ExceptionDto();
+        exceptionDto.setMessage("Something Went Wrong");
+        exceptionDto.setResolution("NoOrderHistoryFoundException");
+        ResponseEntity<ExceptionDto> responseEntity = new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
+        return responseEntity;
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionDto> handleGeneralException(Exception ex){
         ExceptionDto exceptionDto = new ExceptionDto();
